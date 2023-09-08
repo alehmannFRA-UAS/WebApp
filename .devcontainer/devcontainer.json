@@ -3,7 +3,8 @@
 {
 	"name": "Default",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"build": { "dockerfile": "Dockerfile" },
+	// "build": { "dockerfile": "Dockerfile" },
+	"image": "mcr.microsoft.com/devcontainers/java:0-17",
 	"workspaceFolder": "/workspaces/WebApp",
 	// Configure tool-specific properties.
 	"customizations": {
@@ -42,7 +43,8 @@
 				"mhutchie.git-graph",
 				"MS-CEINTL.vscode-language-pack-de",
 				"streetsidesoftware.code-spell-checker-german",
-				"dbaeumer.vscode-eslint"
+				"dbaeumer.vscode-eslint",
+				"nodejs.node-essentials" // Hier fügen Sie Node.js hinzu
 			]
 		}
 	}
