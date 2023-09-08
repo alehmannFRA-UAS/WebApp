@@ -3,13 +3,8 @@
 {
 	"name": "Default",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/java:0-17",
+	"build": { "dockerfile": "Dockerfile" },
 	"workspaceFolder": "/workspaces/WebApp",
-	"features": {
-		"ghcr.io/devcontainers/features/java:1": {
-			"version": "17"
-		}
-	},
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
@@ -46,7 +41,8 @@
 				"vmware.vscode-boot-dev-pack",
 				"mhutchie.git-graph",
 				"MS-CEINTL.vscode-language-pack-de",
-				"streetsidesoftware.code-spell-checker-german"
+				"streetsidesoftware.code-spell-checker-german",
+				"dbaeumer.vscode-eslint"
 			]
 		}
 	}
