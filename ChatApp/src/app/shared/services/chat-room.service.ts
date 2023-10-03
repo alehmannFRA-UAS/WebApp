@@ -87,7 +87,7 @@ export class ChatRoomService {
       const newMessage: Message = {
         id: this.generateUniqueId(),
         content: message,
-        user: username,
+        username: username,
         timestamp: new Date(),
       };
       room.messages.push(newMessage);
