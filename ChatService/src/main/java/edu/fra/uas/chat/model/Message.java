@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Message {
     private Long id;
     private String content;
-    private Long userId;
+    private Long username;
     private LocalDateTime timeStamp;
 
     public Message() {
@@ -32,12 +32,12 @@ public class Message {
         this.content = content;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUsername() {
+        return username;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUsername(Long username) {
+        this.username = username;
     }
 
     public LocalDateTime getTimeStamp() {
@@ -53,7 +53,7 @@ public class Message {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((content == null) ? 0 : content.hashCode());
-        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
@@ -71,16 +71,16 @@ public class Message {
                 return false;
         } else if (!content.equals(other.content))
             return false;
-        if (userId == null) {
-            if (other.userId != null)
+        if (username == null) {
+            if (other.username != null)
                 return false;
-        } else if (!userId.equals(other.userId))
+        } else if (!username.equals(other.username))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Message [id=" + id + ", content=" + content + ", userId=" + userId + ", timeStamp=" + timeStamp + "]";
+        return "Message [id=" + id + ", content=" + content + ", username=" + username + ", timeStamp=" + timeStamp + "]";
     }
 }
