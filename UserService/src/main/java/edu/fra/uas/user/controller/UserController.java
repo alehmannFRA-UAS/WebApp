@@ -23,7 +23,7 @@ import edu.fra.uas.user.service.UserService;
 
 @RestController
 @RequestMapping(value = {"/users"})
-public class UserController implements BaseController<User> {
+public class UserController {
 
     // Logger for logging requests
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -38,7 +38,6 @@ public class UserController implements BaseController<User> {
      * @return a list of all users
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public ResponseEntity<List<User>> getAll() {
         log.info("Get -> /users"); // Log the request.
 
@@ -61,13 +60,12 @@ public class UserController implements BaseController<User> {
      * @param id the ID of the user
      * @return a JSON response with user and HTTP status OK
      */
-    @GetMapping(value = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Override
-    public ResponseEntity<User> getById(@PathVariable("id") Long id) {
-        log.info("Get -> /users/{}", id); // Log the request with the user's ID.
+    @GetMapping(value = {"/{username}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getByUsername(@PathVariable("username") String username) {
+        log.info("Get -> /users/{}", username); // Log the request with the user's ID.
 
         // Fetch the user by their ID from the UserService.
-        User user = this.userService.getById(id);
+        User user = this.userService.getByUsername(username);
 
         // Return the user as a JSON response with HTTP status OK.
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -80,7 +78,6 @@ public class UserController implements BaseController<User> {
      * @return a JSON response with a created user and HTTP status Created
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public ResponseEntity<User> create(@RequestBody User user) {
         log.info("Post -> /users"); // Log the request.
 
@@ -98,7 +95,6 @@ public class UserController implements BaseController<User> {
      * @return the updated user as a JSON response with HTTP status ACCEPTED
      */
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public ResponseEntity<User> update(@RequestBody User user) {
         log.info("Put -> /users"); // Log the request.
 
@@ -116,7 +112,6 @@ public class UserController implements BaseController<User> {
      * @return a JSON response with HTTP status ACCEPTED
      */
     @DeleteMapping(value = {"/{id}"})
-    @Override
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         log.info("Delete -> /users/{}", id); // Log the request with the user's ID.
 
