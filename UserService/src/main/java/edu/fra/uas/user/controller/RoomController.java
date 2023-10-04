@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fra.uas.user.model.Message;
@@ -23,8 +25,10 @@ import edu.fra.uas.user.service.RoomService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE })
 @RestController
-@RequestMapping(value = {"/rooms"})
+@RequestMapping(value = { "/rooms" })
 public class RoomController implements RoomService {
 
     private static final Logger log = LoggerFactory.getLogger(RoomController.class);
@@ -56,13 +60,14 @@ public class RoomController implements RoomService {
      * @param id the room ID to fetch
      * @return the room object as HTTP response
      */
-    @GetMapping(value = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = { "/{id}" }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         // Define the expected response type (single room).
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the request to the external API and include the room ID in the URI.
+        // Use HttpRequestHelper to send the request to the external API and include the
+        // room ID in the URI.
         return HttpRequestHelper.getRequest(apiUrl + "/" + id, responseType);
     }
 
@@ -80,7 +85,8 @@ public class RoomController implements RoomService {
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the POST request to the external API and pass the created room as the request body.
+        // Use HttpRequestHelper to send the POST request to the external API and pass
+        // the created room as the request body.
         return HttpRequestHelper.postRequest(this.apiUrl, room, responseType);
     }
 
@@ -91,7 +97,8 @@ public class RoomController implements RoomService {
      * @param room the room to update
      * @return the updated room as HTTP response
      */
-    @PutMapping(value = {"/{id}"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = {
+            "/{id}" }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Room room) {
         log.info("POST -> /rooms/{} -> {}", id, room); // Log the update request with the new room data.
 
@@ -99,7 +106,8 @@ public class RoomController implements RoomService {
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the PUT request to the external API and include the room ID in the URI.
+        // Use HttpRequestHelper to send the PUT request to the external API and include
+        // the room ID in the URI.
         return HttpRequestHelper.putRequest(this.apiUrl + '/' + id, room, responseType);
     }
 
@@ -109,7 +117,7 @@ public class RoomController implements RoomService {
      * @param id the room ID to delete
      * @return message as HTTP response
      */
-    @DeleteMapping(value = {"/{id}"})
+    @DeleteMapping(value = { "/{id}" })
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         log.info("Delete: /rooms/{}", id); // Log the delete request with the ID of the room to be deleted.
 
@@ -117,10 +125,10 @@ public class RoomController implements RoomService {
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the DELETE request to the external API and include the room ID in the URI.
+        // Use HttpRequestHelper to send the DELETE request to the external API and
+        // include the room ID in the URI.
         return HttpRequestHelper.deleteRequest(this.apiUrl + '/' + id, responseType);
     }
-
 
     /**
      * This method handles POST requests to join a room by room ID.
@@ -129,7 +137,8 @@ public class RoomController implements RoomService {
      * @param user   the user to join
      * @return room as HTTP response
      */
-    @PutMapping(value = {"/{id}/join"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = {
+            "/{id}/join" }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<?> joinRoom(@PathVariable("id") Long roomId, @RequestBody User user) {
         log.info("POST: /rooms/{}/join", roomId); // Log the request to join a room.
@@ -138,7 +147,8 @@ public class RoomController implements RoomService {
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the POST request to join the room and include the user data in the request body.
+        // Use HttpRequestHelper to send the POST request to join the room and include
+        // the user data in the request body.
         return HttpRequestHelper.postRequest(this.apiUrl + '/' + roomId + "/join", user, responseType);
     }
 
@@ -149,7 +159,7 @@ public class RoomController implements RoomService {
      * @param userId the id of the user
      * @return the room as HTTP response
      */
-    @GetMapping(value = {"/{roomId}/leave/{userId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = { "/{roomId}/leave/{userId}" }, produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<?> leaveRoom(@PathVariable("roomId") Long roomId, @PathVariable("userId") Long userId) {
         log.info("POST: /rooms/{}/leave/{}", roomId, userId); // Log the request to leave a room.
@@ -158,18 +168,21 @@ public class RoomController implements RoomService {
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the GET request to leave the room and include the user and room IDs in the URI.
+        // Use HttpRequestHelper to send the GET request to leave the room and include
+        // the user and room IDs in the URI.
         return HttpRequestHelper.getRequest(this.apiUrl + '/' + roomId + "/leave/" + userId, responseType);
     }
 
     /**
-     * This method handles POST requests to send a message to a specific room by room ID.
+     * This method handles POST requests to send a message to a specific room by
+     * room ID.
      *
      * @param roomId  the id of the room
      * @param message the message to send
      * @return room as HTTP response
      */
-    @PostMapping(value = {"/{roomId}/messages"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = {
+            "/{roomId}/messages" }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<?> sendMessage(@PathVariable("roomId") Long roomId, @RequestBody Message message) {
         log.info("POST: /rooms/{}/messages -> {}", roomId, message); // Log the request to send a message.
@@ -178,7 +191,8 @@ public class RoomController implements RoomService {
         ParameterizedTypeReference<Room> responseType = new ParameterizedTypeReference<>() {
         };
 
-        // Use HttpRequestHelper to send the POST request to send a message to the room and include the message data in the request body.
+        // Use HttpRequestHelper to send the POST request to send a message to the room
+        // and include the message data in the request body.
         return HttpRequestHelper.postRequest(this.apiUrl + '/' + roomId + "/messages", message, responseType);
     }
 }
