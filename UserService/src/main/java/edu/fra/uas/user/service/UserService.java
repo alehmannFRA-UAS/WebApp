@@ -12,7 +12,7 @@ import edu.fra.uas.user.repository.UserRepository;
 public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
     private Long nextUserId = 1L;
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -31,6 +31,18 @@ public class UserService {
     public User getById(Long id) {
         log.info("get user by id: {}", id);
         return this.userRepository.get(id);
+    }
+
+    public User getByUsername(String username) {
+        log.info("get user by username: {}", username);
+        User user = null;
+        for (User item : this.userRepository.values()) {
+            if (item.getUsername().equalsIgnoreCase(username)) {
+                user = item;
+                break;
+            }
+        }
+        return user;
     }
 
     public User update(User user) {
