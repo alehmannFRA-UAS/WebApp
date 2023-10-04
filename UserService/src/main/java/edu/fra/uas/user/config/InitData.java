@@ -25,6 +25,7 @@ public class InitData {
         user.setRole("ADMIN");
         user.setFirstName("Administrator");
         user.setLastName("Administrator");
+        user.setUsername("admin");
         user.setEmail("admin@example.com");
         user.setPassword("extremeSecurePassword1234");
         userService.create(user);
@@ -34,6 +35,7 @@ public class InitData {
         user.setRole("USER");
         user.setFirstName("Alice");
         user.setLastName("Adams");
+        user.setUsername("alice");
         user.setEmail("alice@example.com");
         user.setPassword("alice1234");
         userService.create(user);
@@ -43,6 +45,7 @@ public class InitData {
         user.setRole("USER");
         user.setFirstName("Bob");
         user.setLastName("Builder");
+        user.setUsername("bob");
         user.setEmail("bob@example.com");
         user.setPassword("bob1234");
         userService.create(user);
