@@ -1,5 +1,14 @@
 {
 	"folders": [
+		{
+			"path": "../ChatAppV1"
+		},
+		{
+			"path": "../ChatService"
+		},
+		{
+			"path": "../UerService"
+		}
 	],
 	"settings": {
 		"java.configuration.updateBuildConfiguration": "interactive",
