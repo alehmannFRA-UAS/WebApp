@@ -7,7 +7,7 @@
 			"path": "../ChatService"
 		},
 		{
-			"path": "../UerService"
+			"path": "../UserService"
 		}
 	],
 	"settings": {
