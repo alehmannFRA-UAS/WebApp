@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +26,10 @@ import edu.fra.uas.user.model.User;
 import edu.fra.uas.user.service.ChatService;
 import edu.fra.uas.user.service.UserService;
 
+@CrossOrigin(origins = "http://127.0.0.1:4200", maxAge = 3600)
 @RestController
 public class UserController {
-    
+
     private final Logger log = org.slf4j.LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -36,8 +38,7 @@ public class UserController {
     @Autowired
     private ChatService chatService;
 
-    @GetMapping(value = "/users", 
-                produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<User>> list() {
         log.debug("list() is called");
@@ -52,27 +53,24 @@ public class UserController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users/{id}", 
-                produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> find(@PathVariable("id") Long userId) {
         log.debug("find() is called");
         User user = userService.getUserById(userId);
-        if (user == null) {            
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users", 
-                 consumes = MediaType.APPLICATION_JSON_VALUE, 
-                 produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> add(@RequestBody User user) {
         log.debug("add() is called");
         String detail = null;
         if (user == null) {
-            detail = "User must not be null";            
+            detail = "User must not be null";
         } else if (user.getRole() == null) {
             detail = "Role must not be null";
         } else if (user.getRole().isEmpty()) {
@@ -95,7 +93,7 @@ public class UserController {
             detail = "Password must not be empty";
         }
         if (detail != null) {
-            ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, detail); 
+            ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, detail);
             pd.setInstance(URI.create("/users"));
             pd.setTitle("JSON Object Error");
             return ResponseEntity.unprocessableEntity().body(pd);
@@ -106,9 +104,7 @@ public class UserController {
         return new ResponseEntity<User>(user, headers, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/users/{id}"
-                , consumes = MediaType.APPLICATION_JSON_VALUE
-                , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> update(@RequestBody User newUser, @PathVariable("id") Long userId) {
         log.debug("update() is called");
@@ -118,7 +114,7 @@ public class UserController {
         }
         String detail = null;
         if (newUser == null) {
-            detail = "User must not be null";            
+            detail = "User must not be null";
         } else if (newUser.getRole() == null) {
             detail = "Role must not be null";
         } else if (newUser.getRole().isEmpty()) {
@@ -141,7 +137,7 @@ public class UserController {
             detail = "Password must not be empty";
         }
         if (detail != null) {
-            ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, detail); 
+            ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, detail);
             pd.setInstance(URI.create("/users/" + userId));
             pd.setTitle("JSON Object Error");
             return ResponseEntity.unprocessableEntity().body(pd);
@@ -154,11 +150,10 @@ public class UserController {
         user = userService.updateUser(user);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/users/" + user.getId()));
-        return new ResponseEntity<User>(user, headers,  HttpStatus.OK);
+        return new ResponseEntity<User>(user, headers, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/users/{id}",
-                   produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> delete(@PathVariable("id") Long userId) {
         log.debug("delete() is called");
@@ -173,8 +168,7 @@ public class UserController {
     // ChatService integration
     // ##############################################################################################################
 
-    @GetMapping(value = "/users/{id}/chatrooms", 
-                produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}/chatrooms", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> getRooms(@PathVariable("id") Long userId) {
         log.debug("getRooms() is called");
@@ -185,12 +179,11 @@ public class UserController {
         ResponseEntity<?> response = chatService.getAllRooms();
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NO_CONTENT)) {
             return new ResponseEntity<>("No rooms found", HttpStatus.NO_CONTENT);
-        }        
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users/{id}/chatrooms/{roomId}", 
-                produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}/chatrooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> findRoom(@PathVariable("id") Long userId, @PathVariable("roomId") Long roomId) {
         log.debug("findRoom() is called");
@@ -201,13 +194,11 @@ public class UserController {
         ResponseEntity<?> response = chatService.getRoomById(roomId);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
             return response;
-        }        
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users/{id}/chatrooms", 
-                 consumes = MediaType.APPLICATION_JSON_VALUE, 
-                 produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/users/{id}/chatrooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> createRoom(@PathVariable("id") Long userId, @RequestBody String name) {
         log.debug("createRoom() is called");
@@ -225,8 +216,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "/users/{id}/chatrooms/{roomId}", 
-                   produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/users/{id}/chatrooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> deleteRoom(@PathVariable("id") Long userId, @PathVariable("roomId") Long roomId) {
         log.debug("deleteRoom() is called");
@@ -237,12 +227,11 @@ public class UserController {
         ResponseEntity<?> response = chatService.deleteRoom(roomId);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
             return response;
-        }        
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/users/{id}/chatrooms", 
-                consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/users/{id}/chatrooms", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> joinRoom(@PathVariable("id") Long userId, @RequestBody Long roomId) {
         log.debug("joinRoom() is called");
@@ -253,12 +242,11 @@ public class UserController {
         ResponseEntity<?> response = chatService.joinRoom(roomId, user);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
             return response;
-        }        
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/users/{id}/chatrooms/{roomId}", 
-                   produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/users/{id}/chatrooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> leaveRoom(@PathVariable("id") Long userId, @PathVariable("roomId") Long roomId) {
         log.debug("leaveRoom() is called");
@@ -269,15 +257,14 @@ public class UserController {
         ResponseEntity<?> response = chatService.leaveRoom(roomId, userId);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
             return response;
-        }        
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users/{id}/chatrooms/{roomId}/messages", 
-                 consumes = MediaType.APPLICATION_JSON_VALUE, 
-                 produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/users/{id}/chatrooms/{roomId}/messages", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> sendMessage(@PathVariable("id") Long userId, @PathVariable("roomId") Long roomId, @RequestBody String text) {
+    public ResponseEntity<?> sendMessage(@PathVariable("id") Long userId, @PathVariable("roomId") Long roomId,
+            @RequestBody String text) {
         log.debug("sendMessage() is called");
         User user = userService.getUserById(userId);
         if (user == null) {
@@ -286,12 +273,11 @@ public class UserController {
         ResponseEntity<?> response = chatService.sendMessage(roomId, userId, text);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
             return response;
-        }        
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users/{id}/chatrooms/{roomId}/messages", 
-                produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}/chatrooms/{roomId}/messages", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> getMessages(@PathVariable("id") Long userId, @PathVariable("roomId") Long roomId) {
         log.debug("getMessages() is called");
@@ -301,8 +287,8 @@ public class UserController {
         }
         ResponseEntity<?> response = chatService.getAllMessages(roomId, userId);
         if (response.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
-           return response;
-        }        
+            return response;
+        }
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 
