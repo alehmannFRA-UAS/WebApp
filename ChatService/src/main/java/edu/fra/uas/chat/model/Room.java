@@ -1,23 +1,32 @@
 package edu.fra.uas.chat.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-@SuppressWarnings("unused")
-public class Room {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Room implements java.io.Serializable {
+
+    private static final Logger log = LoggerFactory.getLogger(Room.class);
+
     private Long id;
     private String name;
-    private Map<Long, Message> messages = new HashMap<>();
-    private Map<Long, User> users = new HashMap<>();
+    private Map<Long, Message> messages;
+    private Map<Long, ChatUser> users;
 
     public Room() {
+        log.debug("Room created without values");
+        messages = new HashMap<>();
+        users = new HashMap<>();
     }
 
-    public Room(String name) {
+    public Room(Long id, String name, Map<Long, Message> messages, Map<Long, ChatUser> users) {
+        log.debug("Room created with values + name: " + name);
+        this.id = id;
         this.name = name;
+        this.messages = messages;
+        this.users = users;
     }
 
     public Long getId() {
@@ -44,35 +53,12 @@ public class Room {
         this.messages = messages;
     }
 
-    @JsonIgnore
-    public void setMessage(Message message) {
-        this.messages.put(message.getId(), message);
-    }
-
-    public Map<Long, User> getUsers() {
+    public Map<Long, ChatUser> getUsers() {
         return users;
     }
 
-    public void setUsers(Map<Long, User> users) {
+    public void setUsers(Map<Long, ChatUser> users) {
         this.users = users;
-    }
-
-    @JsonIgnore
-    public void setUser(User user) {
-        this.users.put(user.getId(), user);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Room room = (Room) o;
-        return Objects.equals(name, room.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 
     @Override

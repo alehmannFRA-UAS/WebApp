@@ -1,33 +1,32 @@
 package edu.fra.uas.user.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.Serializable;
 
-@SuppressWarnings("unused")
-public class User {
-    private static final Logger log = LoggerFactory.getLogger(User.class);
+import org.slf4j.Logger;
+
+public class User implements Serializable {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(User.class);
+
     private long id;
     private String role;
     private String firstName;
     private String lastName;
     private String email;
-    private String username;
     private String password;
 
     public User() {
         log.debug("User created without values");
     }
 
-    public User(long id, String role, String firstName, String lastName, String email, String username,
-            String password) {
-        log.debug("User created with values + id: {} role: {} firstName: {} lastName: {} email: {} username: {} password: {}",
-                id, role, firstName, lastName, email, username, password);
+    public User(long id, String role, String firstName, String lastName, String email, String password) {
+        log.debug("User created with values + id: " + id + " role: " + role + " firstName: " + firstName + " lastName: "
+                + lastName + " email: " + email + " password: " + password);
         this.id = id;
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.username = username;
         this.password = password;
     }
 
@@ -71,14 +70,6 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -88,57 +79,47 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((role == null) ? 0 : role.hashCode());
-        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-        return result;
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+        if (object == this)
+            return true;
+        if (this.getClass() != object.getClass())
+            return false;
+        if (this.firstName == null) {
+            if (((User) object).firstName != null)
+                return false;
+        } else if (!this.firstName.equals(((User) object).firstName)) {
+            return false;
+        }
+        if (this.lastName == null) {
+            if (((User) object).lastName != null)
+                return false;
+        } else if (!this.lastName.equals(((User) object).lastName)) {
+            return false;
+        }
+        if (this.email == null) {
+            if (((User) object).email != null)
+                return false;
+        } else if (!this.email.equals(((User) object).email)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (role == null) {
-            if (other.role != null)
-                return false;
-        } else if (!role.equals(other.role))
-            return false;
-        if (firstName == null) {
-            if (other.firstName != null)
-                return false;
-        } else if (!firstName.equals(other.firstName))
-            return false;
-        if (lastName == null) {
-            if (other.lastName != null)
-                return false;
-        } else if (!lastName.equals(other.lastName))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.firstName != null ? this.firstName.hashCode() : 0);
+        hash = 31 * hash + (this.lastName != null ? this.lastName.hashCode() : 0);
+        hash = 31 * hash + (this.email != null ? this.email.hashCode() : 0);
+        return hash;
     }
 
     @Override
     public String toString() {
         return "User [id=" + id + ", role=" + role + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-                + email + ", username=" + username + ", password=" + password + "]";
+                + email + ", password=" + password + "]";
     }
+
 }
