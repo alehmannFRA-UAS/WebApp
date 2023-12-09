@@ -8,13 +8,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { FormsModule } from '@angular/forms';
+import { RoomCardComponent } from './room-card/room-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    RoomsComponent
+    RoomsComponent,
+    RoomCardComponent
   ],
   imports: [
     BrowserModule,
