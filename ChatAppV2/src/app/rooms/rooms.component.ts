@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Room } from '../room';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RoomService } from '../room.service';
 
 @Component({
   selector: 'app-rooms',
@@ -11,18 +11,13 @@ export class RoomsComponent {
   name: any = '';
   rooms: Array<Room> = [];
   selectedRoom: Room | null = null;
-  searchRoom: string  = '';
+  searchRoom: string = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private roomService: RoomService) {
   }
 
   ngOnInit(): void {
-    const url = 'http://127.0.0.1:8000/users/1/chatrooms';
-
-    const headers = new HttpHeaders()
-      .set('Accept', 'application/json');
-
-    this.http.get<any>(url, { headers }).subscribe({
+    this.roomService.getAll().subscribe({
       next: (res: any) => {
         console.log(res);
         this.rooms = res;
@@ -32,12 +27,7 @@ export class RoomsComponent {
   }
 
   createRoom(): void {
-    const url = 'http://127.0.0.1:8000/users/1/chatrooms';
-
-    const headers = new HttpHeaders().set('Accept', 'application/json')
-      .set('Content-Type', 'application/json');
-
-    this.http.post<Room>(url, this.name , { headers }).subscribe({
+    this.roomService.createRoom(this.name).subscribe({
       next: (room) => {
         this.rooms.push(room);
         this.name = '';
@@ -49,8 +39,9 @@ export class RoomsComponent {
   }
 
   search(): void {
-    for(const room of this.rooms){
-      if(room.name === this.searchRoom){
+    this.selectedRoom = null;
+    for (const room of this.rooms) {
+      if (room.name === this.searchRoom) {
         this.select(room);
       }
     }
