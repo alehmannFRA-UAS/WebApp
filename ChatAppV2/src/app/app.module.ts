@@ -9,6 +9,12 @@ import { FooterComponent } from './footer/footer.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { FormsModule } from '@angular/forms';
 import { RoomCardComponent } from './room-card/room-card.component';
+import { HomeComponent } from './home/home.component';
+import { UserSearchComponent } from './user-search/user-search.component';
+import { RoomEditComponent } from './room-edit/room-edit.component';
+import { AboutComponent } from './about/about.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +22,13 @@ import { RoomCardComponent } from './room-card/room-card.component';
     NavbarComponent,
     FooterComponent,
     RoomsComponent,
-    RoomCardComponent
+    RoomCardComponent,
+    HomeComponent,
+    UserSearchComponent,
+    RoomEditComponent,
+    AboutComponent,
+    NotFoundComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule,
