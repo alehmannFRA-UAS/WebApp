@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Room } from '../room';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-card',
@@ -7,4 +9,14 @@ import { Component } from '@angular/core';
 })
 export class RoomCardComponent {
 
+  @Input() item: Room | null = null;
+  @Input() selected = false;
+
+  constructor(private router: Router) { }
+
+  public editRoom(): void {
+    if (this.item !== null) {
+      this.router.navigate(['/rooms/', this.item.id]);
+    }
+  }
 }
