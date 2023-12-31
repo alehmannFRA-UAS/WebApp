@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-12">
                     <textarea [(ngModel)]="newMessage" class="form-control mb-3"
-                        placeholder="Send a message"></textarea>
+                        placeholder="Send a message" (keyup.enter)="sendMessage()"></textarea>
                 </div>
             </div>
             <div class="row">
