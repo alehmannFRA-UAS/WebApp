@@ -34,10 +34,10 @@ export class ConversationComponent {
       }
 
       if (this.userId && this.roomId) {
-        this.roomService.getRoomByIdandUserId(this.roomId, this.userId).subscribe({
+        this.roomService.getRoomByIdAndUserId(this.roomId, this.userId).subscribe({
           next: (res: any) => {
             this.title = res.name;
-            Object.keys(res.messages).forEach((key, index) =>{
+            Object.keys(res.messages).forEach((key, index) => {
               this.messages.push(res.messages[key]);
               console.log(this.messages[index].userId);
             });
@@ -51,5 +51,17 @@ export class ConversationComponent {
     });
   }
 
-  public sendMessage(): void { }
+  public sendMessage(): void {
+    const message: Message = {
+      id: -1,
+      content: this.newMessage,
+      userId: this.userId,
+      timestamp: new Date()
+    }
+
+    console.log(message);
+    this.messages.push(message);
+    this.newMessage = '';
+
+  }
 }

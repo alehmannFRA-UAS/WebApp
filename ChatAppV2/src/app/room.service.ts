@@ -28,7 +28,7 @@ export class RoomService {
     return this.http.post<Room>(url, name, { headers });
   }
 
-  public getRoomByIdandUserId(roomId: string, userId: number): Observable<Room> {
+  public getRoomByIdAndUserId(roomId: string, userId: number): Observable<Room> {
     const url = `http://127.0.0.1:8000/users/${userId}/chatrooms/${roomId}`;
 
     const headers = new HttpHeaders().set('Accept', 'application/json');
