@@ -11,9 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { RoomCardComponent } from './room-card/room-card.component';
 import { HomeComponent } from './home/home.component';
 import { UserSearchComponent } from './user-search/user-search.component';
-import { RoomEditComponent } from './room-edit/room-edit.component';
 import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ConversationComponent } from './conversation/conversation.component';
+import { ConversationV2Component } from './conversation -v2/conversation-v2.component';
 
 @NgModule({
   declarations: [
@@ -24,9 +25,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
     RoomCardComponent,
     HomeComponent,
     UserSearchComponent,
-    RoomEditComponent,
     AboutComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ConversationComponent,
+    ConversationV2Component
   ],
   imports: [
     BrowserModule,
