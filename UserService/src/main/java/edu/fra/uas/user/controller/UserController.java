@@ -26,7 +26,7 @@ import edu.fra.uas.user.model.User;
 import edu.fra.uas.user.service.ChatService;
 import edu.fra.uas.user.service.UserService;
 
-@CrossOrigin(origins = "http://127.0.0.1:4200", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class UserController {
 
