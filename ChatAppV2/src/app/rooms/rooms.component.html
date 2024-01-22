@@ -7,14 +7,14 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-6 mt-3 mb-3">
       <label for="name">Name:</label>
-      <input [(ngModel)]="name" name="name" class="ms-3">
+      <input [(ngModel)]="name" name="name" class="ms-3" (keyup.enter)="createRoom()">
       <button class="btn btn-primary ms-3" (click)="createRoom()" [disabled]="name.length<3">Create Room</button>
     </div>
 
-    <div class="col-sm-12 col-md-12 col-lg-6 mt-3 mb-3">
+    <div class="col-sm-12 col-md-12 col-lg-6 mt-3 mb-5">
       <label for="name">Search:</label>
       <input [(ngModel)]="searchRoom" name="name" class="ms-3"
-        (change)="selectedRoom = searchRoom === '' ? null: selectedRoom">
+        (change)="selectedRoom = searchRoom === '' ? null: selectedRoom" (keyup.enter)="search()">
       <button class="btn btn-success ms-3" (click)="search()" [disabled]="searchRoom.length<3">Search Room</button>
     </div>
   </div>
