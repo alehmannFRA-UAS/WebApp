@@ -13,7 +13,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @QueryMapping(name = "userById")
+    @QueryMapping
     public User userById(@Argument Long id) {
         return this.userService.getUserById(id);
     }

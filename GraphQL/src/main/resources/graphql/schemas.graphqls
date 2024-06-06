@@ -5,7 +5,7 @@ type Query {
 
 # User type defines the structure of a User object
 type User {
-    id: ID!
+    id: ID
     role: String
     firstName: String
     lastName: String
