@@ -1,0 +1,14 @@
+# Query type defines all the read operations
+type Query {
+    userById(id: ID): User
+}
+
+# User type defines the structure of a User object
+type User {
+    id: ID!
+    role: String
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+}
