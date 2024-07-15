@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "edu.fra.uas.gprc";
+
+message MessageRequest {
+    string userId = 1;
+}
+
+message MessageResponse {
+    string id = 1;
+    string content = 2;
+    string userId = 3; 
+}
+
+service MessageService {
+    rpc getMessage(MessageRequest) returns (MessageResponse) {};
+}
