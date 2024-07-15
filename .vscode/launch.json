@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "UserApplication",
+            "request": "launch",
+            "mainClass": "edu.fra.uas.user.UserApplication",
+            "projectName": "user"
+        },
+        {
+            "type": "java",
+            "name": "ChatApplication",
+            "request": "launch",
+            "mainClass": "edu.fra.uas.chat.ChatApplication",
+            "projectName": "chat"
+        },
+        {
+            "type": "java",
+            "name": "GraphGLApplication",
+            "request": "launch",
+            "mainClass": "edu.fra.uas.graphgl.GraphGLApplication",
+            "projectName": "graphgl"
+        },
+        {
+            "type": "java",
             "name": "BeanBeispielApplication",
             "request": "launch",
             "mainClass": "edu.fra.uas.BeanBeispielApplication",
